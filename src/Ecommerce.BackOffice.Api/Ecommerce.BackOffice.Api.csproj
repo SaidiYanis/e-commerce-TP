@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <ItemGroup>
+    <ProjectReference Include="..\Ecommerce.BackOffice.Catalog\Ecommerce.BackOffice.Catalog.csproj" />
+    <ProjectReference Include="..\Ecommerce.BackOffice.Infrastructure\Ecommerce.BackOffice.Infrastructure.csproj" />
+    <ProjectReference Include="..\Ecommerce.BackOffice.Orders\Ecommerce.BackOffice.Orders.csproj" />
+  </ItemGroup>
+</Project>

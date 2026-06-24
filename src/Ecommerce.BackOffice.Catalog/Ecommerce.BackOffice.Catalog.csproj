@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\Ecommerce.BackOffice.SharedKernel\Ecommerce.BackOffice.SharedKernel.csproj" />
+  </ItemGroup>
+</Project>
