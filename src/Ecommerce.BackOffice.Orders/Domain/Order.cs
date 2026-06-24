@@ -79,6 +79,43 @@ public sealed class Order : IEntity<Guid>
         return Result.Success();
     }
 
+    public Result Pay(DateTime paidAt)
+    {
+        if (Status != OrderStatus.Cart)
+        {
+            return Result.Failure("Only a cart can be paid.");
+        }
+
+        Status = OrderStatus.Paid;
+        PaidAt = paidAt;
+
+        return Result.Success();
+    }
+
+    public Result Cancel(DateTime cancelledAt)
+    {
+        if (Status != OrderStatus.Cart)
+        {
+            return Result.Failure("Only a cart can be cancelled.");
+        }
+
+        Status = OrderStatus.Cancelled;
+        CancelledAt = cancelledAt;
+
+        return Result.Success();
+    }
+
+    public Result Deliver()
+    {
+        if (Status != OrderStatus.Paid)
+        {
+            return Result.Failure("Only a paid order can be delivered.");
+        }
+
+        Status = OrderStatus.Delivered;
+        return Result.Success();
+    }
+
     private static Result<OrderLine> CreateLine(Guid productId, decimal unitPrice)
     {
         if (productId == Guid.Empty)
