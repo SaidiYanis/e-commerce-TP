@@ -5,35 +5,23 @@ namespace Ecommerce.BackOffice.Infrastructure.Repositories;
 
 public sealed class InMemoryProductRepository : IProductRepository
 {
-    private readonly Dictionary<Guid, Product> _products = new();
+    private readonly InMemoryRepository<Product> _repository = new();
 
     public Task<IReadOnlyCollection<Product>> GetAllAsync(CancellationToken cancellationToken = default) =>
-        Task.FromResult<IReadOnlyCollection<Product>>(_products.Values.ToArray());
+        _repository.GetAllAsync();
 
-    public Task<Product?> GetByIdAsync(Guid productId, CancellationToken cancellationToken = default)
-    {
-        _products.TryGetValue(productId, out var product);
-        return Task.FromResult(product);
-    }
+    public Task<Product?> GetByIdAsync(Guid productId, CancellationToken cancellationToken = default) =>
+        _repository.GetByIdAsync(productId);
 
     public Task<bool> ExistsAsync(Guid productId, CancellationToken cancellationToken = default) =>
-        Task.FromResult(_products.ContainsKey(productId));
+        _repository.ExistsAsync(productId);
 
-    public Task AddAsync(Product product, CancellationToken cancellationToken = default)
-    {
-        _products[product.Id] = product;
-        return Task.CompletedTask;
-    }
+    public Task AddAsync(Product product, CancellationToken cancellationToken = default) =>
+        _repository.SaveAsync(product);
 
-    public Task UpdateAsync(Product product, CancellationToken cancellationToken = default)
-    {
-        _products[product.Id] = product;
-        return Task.CompletedTask;
-    }
+    public Task UpdateAsync(Product product, CancellationToken cancellationToken = default) =>
+        _repository.SaveAsync(product);
 
-    public Task DeleteAsync(Guid productId, CancellationToken cancellationToken = default)
-    {
-        _products.Remove(productId);
-        return Task.CompletedTask;
-    }
+    public Task DeleteAsync(Guid productId, CancellationToken cancellationToken = default) =>
+        _repository.DeleteAsync(productId);
 }
