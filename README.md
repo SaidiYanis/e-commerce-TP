@@ -114,9 +114,9 @@ dotnet test Ecommerce.BackOffice.sln
 
 ## Où sont les règles métier
 
-- catégories : [Category.cs](/c:/Users/yanis/Downloads/TP%20FINAL%20ECOMMERCE/src/Ecommerce.BackOffice.Catalog/Domain/Category.cs:1)
-- produits : [Product.cs](/c:/Users/yanis/Downloads/TP%20FINAL%20ECOMMERCE/src/Ecommerce.BackOffice.Catalog/Domain/Product.cs:1)
-- commandes : [Order.cs](/c:/Users/yanis/Downloads/TP%20FINAL%20ECOMMERCE/src/Ecommerce.BackOffice.Orders/Domain/Order.cs:1)
+- catégories : [Category.cs](./src/Ecommerce.BackOffice.Catalog/Domain/Category.cs)
+- produits : [Product.cs](./src/Ecommerce.BackOffice.Catalog/Domain/Product.cs)
+- commandes : [Order.cs](./src/Ecommerce.BackOffice.Orders/Domain/Order.cs)
 
 ## Isolation du domaine par rapport à la base
 
