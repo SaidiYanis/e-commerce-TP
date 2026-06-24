@@ -1,0 +1,62 @@
+@baseUrl = http://localhost:5214
+@categoryId = 11111111-1111-1111-1111-111111111111
+@productId = 22222222-2222-2222-2222-222222222222
+@orderId = 33333333-3333-3333-3333-333333333333
+
+### Create category
+POST {{baseUrl}}/categories
+Content-Type: application/json
+
+{
+  "title": "Tech",
+  "description": "Technology products",
+  "color": "blue"
+}
+
+### Create product
+POST {{baseUrl}}/products
+Content-Type: application/json
+
+{
+  "title": "Laptop",
+  "description": "A powerful laptop",
+  "price": 1200,
+  "promotionalPrice": 999,
+  "stock": 5,
+  "categoryId": "{{categoryId}}"
+}
+
+### Create order
+POST {{baseUrl}}/orders
+Content-Type: application/json
+
+{
+  "productId": "{{productId}}"
+}
+
+### Add one line to existing order
+POST {{baseUrl}}/orders/{{orderId}}/lines
+Content-Type: application/json
+
+{
+  "productId": "{{productId}}"
+}
+
+### Pay order
+POST {{baseUrl}}/orders/{{orderId}}/pay
+
+### Deliver order
+POST {{baseUrl}}/orders/{{orderId}}/deliver
+
+### Business error example: invalid product because promotional price equals price
+POST {{baseUrl}}/products
+Content-Type: application/json
+
+{
+  "title": "Invalid laptop",
+  "description": "This request should fail",
+  "price": 1000,
+  "promotionalPrice": 1000,
+  "stock": 3,
+  "categoryId": "{{categoryId}}"
+}

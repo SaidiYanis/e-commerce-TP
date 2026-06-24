@@ -95,6 +95,12 @@ En environnement Development, la documentation Swagger est disponible sur :
 /swagger
 ```
 
+Des requêtes prêtes à tester sont aussi disponibles dans :
+
+```text
+docs/api-requests.http
+```
+
 Par défaut, les endpoints principaux sont :
 
 - `GET /categories`
