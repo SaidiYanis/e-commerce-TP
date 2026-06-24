@@ -70,4 +70,51 @@ public sealed class OrderDomainTests
         Assert.True(result.IsFailure);
         Assert.Equal("Only a cart can be paid.", result.Error);
     }
+
+    [Fact]
+    public void Given_PaidOrder_When_PayAgain_Then_FailureIsReturned()
+    {
+        var order = Order.Create(Guid.NewGuid(), DateTime.UtcNow, Guid.NewGuid(), 100m).Value!;
+        order.Pay(DateTime.UtcNow);
+
+        var result = order.Pay(DateTime.UtcNow);
+
+        Assert.True(result.IsFailure);
+        Assert.Equal("Only a cart can be paid.", result.Error);
+    }
+
+    [Fact]
+    public void Given_PaidOrder_When_Cancel_Then_FailureIsReturned()
+    {
+        var order = Order.Create(Guid.NewGuid(), DateTime.UtcNow, Guid.NewGuid(), 100m).Value!;
+        order.Pay(DateTime.UtcNow);
+
+        var result = order.Cancel(DateTime.UtcNow);
+
+        Assert.True(result.IsFailure);
+        Assert.Equal("Only a cart can be cancelled.", result.Error);
+    }
+
+    [Fact]
+    public void Given_CartOrder_When_Deliver_Then_FailureIsReturned()
+    {
+        var order = Order.Create(Guid.NewGuid(), DateTime.UtcNow, Guid.NewGuid(), 100m).Value!;
+
+        var result = order.Deliver();
+
+        Assert.True(result.IsFailure);
+        Assert.Equal("Only a paid order can be delivered.", result.Error);
+    }
+
+    [Fact]
+    public void Given_PaidOrder_When_AddingProduct_Then_FailureIsReturned()
+    {
+        var order = Order.Create(Guid.NewGuid(), DateTime.UtcNow, Guid.NewGuid(), 100m).Value!;
+        order.Pay(DateTime.UtcNow);
+
+        var result = order.AddProduct(Guid.NewGuid(), 50m);
+
+        Assert.True(result.IsFailure);
+        Assert.Equal("Only a cart can be modified.", result.Error);
+    }
 }

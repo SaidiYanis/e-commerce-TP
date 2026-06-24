@@ -83,4 +83,40 @@ public sealed class ApplicationServicesTests
         Assert.NotNull(storedProduct);
         Assert.Equal(1, storedProduct!.Stock);
     }
+
+    [Fact]
+    public async Task Given_StockBecomesInsufficientAfterCartCreation_When_PayingOrder_Then_FailureIsReturned()
+    {
+        ICategoryRepository categoryRepository = new InMemoryCategoryRepository();
+        IProductRepository productRepository = new InMemoryProductRepository();
+        IOrderRepository orderRepository = new InMemoryOrderRepository();
+        IOrderProductStockPort stockPort = new InMemoryOrderProductStockPort(productRepository);
+
+        var categoryService = new CategoryService(categoryRepository);
+        var category = await categoryService.CreateAsync(new CreateCategoryCommand("Tech", "Technology", "blue"));
+
+        var productService = new ProductService(categoryRepository, productRepository);
+        var product = await productService.CreateAsync(new CreateProductCommand(
+            "Laptop",
+            "A powerful laptop",
+            1000m,
+            null,
+            1,
+            category.Value!.Id));
+
+        var orderService = new OrderService(stockPort, orderRepository);
+        var order = await orderService.CreateAsync(new CreateOrderCommand(product.Value!.Id));
+
+        var storedProduct = await productRepository.GetByIdAsync(product.Value!.Id);
+        Assert.NotNull(storedProduct);
+
+        var stockUpdate = storedProduct!.DecreaseStock(1);
+        Assert.True(stockUpdate.IsSuccess);
+        await productRepository.UpdateAsync(storedProduct);
+
+        var payment = await orderService.PayAsync(order.Value!.Id);
+
+        Assert.True(payment.IsFailure);
+        Assert.Equal("Insufficient stock at payment time.", payment.Error);
+    }
 }
