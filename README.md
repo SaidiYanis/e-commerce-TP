@@ -89,6 +89,12 @@ dotnet restore Ecommerce.BackOffice.sln
 dotnet run --project src/Ecommerce.BackOffice.Api
 ```
 
+En environnement Development, la documentation Swagger est disponible sur :
+
+```text
+/swagger
+```
+
 Par défaut, les endpoints principaux sont :
 
 - `GET /categories`
